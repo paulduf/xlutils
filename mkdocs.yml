@@ -1,0 +1,26 @@
+site_name: xlutils
+site_description: Minimal boilerplate Excel styling for dataframes
+theme:
+  name: windmill
+
+exclude_docs: |
+  _snippets/
+
+nav:
+  - Home: index.md
+  - Demo: demo.md
+  - API Reference: api.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.snippets

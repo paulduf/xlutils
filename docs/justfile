@@ -1,0 +1,13 @@
+set working-directory := '..'
+
+# Generate demo Excel + HTML assets
+gen:
+    uv run python docs/gen_demo.py
+
+# Build the docs site
+build: gen
+    uv run mkdocs build
+
+# Serve docs locally at localhost:8000
+serve: gen
+    uv run mkdocs serve
