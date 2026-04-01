@@ -12,10 +12,28 @@ dependencies = ["openpyxl>=3.1", "pydantic>=2.0", "narwhals>=1.0"]
 [project.optional-dependencies]
 pandas = ["pandas>=1.5"]
 polars = ["polars>=0.19"]
-dev = ["pytest>=9.0.2", "pandas>=1.5", "polars>=0.19"]
+dev = [
+    "pytest>=9.0",
+    "pandas>=1.5",
+    "polars>=0.19",
+    "ruff>=0.11",
+    "ty>=0.0.1a7",
+]
 docs = [
-    "mkdocs>=1.6.1",
+    "mkdocs>=1.6",
     "mkdocs-windmill",
     "mkdocstrings[python]>=0.24",
     "xlsx2html>=0.4",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/xlutils"]
+
+[tool.ruff]
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
