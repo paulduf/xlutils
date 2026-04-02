@@ -31,6 +31,46 @@ style(data).save("report.xlsx")
 
 Works with **pandas**, **polars**, or plain `list[dict]` — powered by [narwhals](https://github.com/narwhals-dev/narwhals).
 
+## Multi-Sheet Workbooks
+
+Call `style()` with no data, then add sheets with `.add_sheet()`. Each sheet
+gets its own data, theme, and settings. Use `.back()` to return to the workbook
+level and chain the next sheet.
+
+```python
+from xlutils import style
+
+(style()
+    .add_sheet(detail_data, "Sales")
+        .apply_theme("default")
+        .expand_columns("fit")
+        .color_gradient("Q1 Sales")
+        .color_gradient("Q2 Sales")
+        .back()
+    .add_sheet(summary_data, "Summary")
+        .apply_theme("minimal")
+        .expand_columns(18)
+        .freeze_header(False)
+        .back()
+    .save("report.xlsx"))
+```
+
+You can also set **workbook-level defaults** that all sheets inherit unless
+overridden individually:
+
+```python
+(style()
+    .apply_theme("minimal")          # default for every sheet
+    .add_sheet(q1_data, "Q1")
+        .color_gradient("Revenue")
+        .back()
+    .add_sheet(q2_data, "Q2")
+        .apply_theme("default")      # overrides the workbook default
+        .color_gradient("Revenue")
+        .back()
+    .save("quarterly.xlsx"))
+```
+
 ## Built-in Themes
 
 | Theme | Description |

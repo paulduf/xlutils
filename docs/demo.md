@@ -54,3 +54,36 @@ The color gradient uses Excel conditional formatting — download the file to se
 --8<-- "docs/_snippets/demo_styled.html"
 
 <a href="../downloads/demo_styled.xlsx" download data-wm-adjusted="done" target="_top">Download demo_styled.xlsx</a>
+
+---
+
+## Multi-Sheet Workbook with Per-Sheet Styling
+
+Two sheets in one workbook, each with a different theme and configuration.
+The **Sales** sheet uses the `default` theme with color gradients on both sales
+columns. The **Summary** sheet uses `minimal` with fixed column widths and no
+frozen header.
+
+```python
+from xlutils import style
+
+(style()
+    .add_sheet(detail_data, "Sales")
+        .apply_theme("default")
+        .expand_columns("fit")
+        .color_gradient("Q1 Sales")
+        .color_gradient("Q2 Sales")
+        .back()
+    .add_sheet(summary_data, "Summary")
+        .apply_theme("minimal")
+        .expand_columns(18)
+        .freeze_header(False)
+        .back()
+    .save("demo_multisheet.xlsx"))
+```
+
+**Preview** (Sales sheet — download to see the Summary sheet):
+
+--8<-- "docs/_snippets/demo_multisheet.html"
+
+<a href="../downloads/demo_multisheet.xlsx" download target="_top">Download demo_multisheet.xlsx</a>

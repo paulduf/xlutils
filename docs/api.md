@@ -8,6 +8,10 @@
 
 ::: xlutils.styler.Styler
 
+## SheetSpec
+
+::: xlutils.sheet_spec.SheetSpec
+
 ## Models
 
 ::: xlutils.models.Theme

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import TypedDict
+
 from openpyxl import Workbook
 from openpyxl.formatting.rule import ColorScaleRule
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
@@ -7,6 +9,16 @@ from openpyxl.utils import get_column_letter
 
 from .models import BorderSide, CellStyle, Theme
 from .utils import calc_col_widths
+
+
+class SheetConfig(TypedDict):
+    sheet_name: str
+    headers: list[str]
+    rows: list[list]
+    theme: Theme
+    column_mode: str | int | None
+    gradient_rules: list[dict]
+    freeze_header: bool
 
 
 def _side(s: BorderSide) -> Side:
@@ -39,20 +51,15 @@ def _apply_cell_style(cell, style: CellStyle) -> None:
     )
 
 
-def write(
-    path: str,
+def _write_sheet(
+    ws,
     headers: list[str],
     rows: list[list],
     theme: Theme,
     column_mode: str | int | None,
     gradient_rules: list[dict],
     freeze_header: bool,
-    sheet_name: str = "Sheet1",
 ) -> None:
-    wb = Workbook()
-    ws = wb.active
-    ws.title = sheet_name
-
     # Header row
     ws.append(headers)
     for cell in ws[1]:
@@ -106,4 +113,19 @@ def write(
     if freeze_header:
         ws.freeze_panes = "A2"
 
+
+def write(path: str, sheets: list[SheetConfig]) -> None:
+    wb = Workbook()
+    wb.remove(wb.active)  # remove default empty sheet
+    for sheet in sheets:
+        ws = wb.create_sheet(sheet["sheet_name"])
+        _write_sheet(
+            ws=ws,
+            headers=sheet["headers"],
+            rows=sheet["rows"],
+            theme=sheet["theme"],
+            column_mode=sheet["column_mode"],
+            gradient_rules=sheet["gradient_rules"],
+            freeze_header=sheet["freeze_header"],
+        )
     wb.save(path)
