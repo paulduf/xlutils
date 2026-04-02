@@ -1,4 +1,5 @@
 site_name: xlutils
+site_url: https://paulduf.github.io/xlutils/
 site_description: Minimal boilerplate Excel styling for dataframes
 theme:
   name: windmill
