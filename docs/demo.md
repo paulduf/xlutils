@@ -31,7 +31,7 @@ style(data).save("demo_default.xlsx")
 
 --8<-- "docs/_snippets/demo_default.html"
 
-<a href="downloads/demo_default.xlsx" download data-wm-adjusted="done" target="_top">Download demo_default.xlsx</a>
+<a href="../downloads/demo_default.xlsx" download data-wm-adjusted="done" target="_top">Download demo_default.xlsx</a>
 
 ---
 
@@ -53,4 +53,4 @@ The color gradient uses Excel conditional formatting — download the file to se
 
 --8<-- "docs/_snippets/demo_styled.html"
 
-<a href="downloads/demo_styled.xlsx" download data-wm-adjusted="done" target="_top">Download demo_styled.xlsx</a>
+<a href="../downloads/demo_styled.xlsx" download data-wm-adjusted="done" target="_top">Download demo_styled.xlsx</a>
