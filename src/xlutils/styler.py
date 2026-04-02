@@ -63,7 +63,7 @@ class Styler:
             raise ValueError(f"Unknown theme {theme!r}. Available: {available}")
         return THEME_REGISTRY[theme]
 
-    # -- Styling methods (workbook defaults in multi-sheet mode, proxied to sheet in primary mode) --
+    # -- Styling methods: defaults (multi-sheet) / proxied to sheet (primary) --
 
     def apply_theme(self, theme: str | Theme) -> Styler:
         """Set the theme.
@@ -83,7 +83,8 @@ class Styler:
         """Set column width.
 
         In single-sheet mode, applies to the sheet. In multi-sheet mode, sets a
-        workbook-level default. `"fit"` auto-sizes, int for fixed width, `None` to disable.
+        workbook-level default. `"fit"` auto-sizes, int for fixed width,
+        `None` to disable.
         """
         if self._primary:
             self._sheets[0]._column_mode = mode
@@ -125,10 +126,12 @@ class Styler:
     # -- Sheet management --
 
     def add_sheet(self, data: Any, sheet_name: str = "Sheet1") -> SheetSpec:
-        """Add a sheet to the workbook and return its `SheetSpec` for per-sheet configuration.
+        """Add a sheet to the workbook and return its `SheetSpec`
+        for per-sheet configuration.
 
         Args:
-            data: Table data for this sheet (list[dict], pandas DataFrame, polars DataFrame).
+            data: Table data for this sheet (list[dict], pandas DataFrame,
+                polars DataFrame).
             sheet_name: Name of the worksheet tab.
 
         Returns:
@@ -136,7 +139,8 @@ class Styler:
             return to this `Styler`, or `.save(path)` to write the workbook directly.
 
         Raises:
-            TypeError: If called on a `Styler` created with `style(data)` (primary mode).
+            TypeError: If called on a `Styler` created with `style(data)`
+                (primary mode).
             ValueError: If `sheet_name` is already used by another sheet.
         """
         if self._primary:

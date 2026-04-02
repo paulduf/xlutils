@@ -61,7 +61,10 @@ class SheetSpec:
         return self
 
     def expand_columns(self, mode: Literal["fit"] | int | None = "fit") -> SheetSpec:
-        """Set column width for this sheet. `"fit"` auto-sizes, int for fixed, `None` to disable."""
+        """Set column width for this sheet.
+
+        `"fit"` auto-sizes, int for fixed, `None` to disable.
+        """
         self._column_mode = mode
         return self
 
@@ -92,9 +95,13 @@ class SheetSpec:
 
     def _resolve(self, defaults: dict) -> dict:
         """Merge per-sheet settings over workbook-level defaults."""
+
+        def _pick(val, key):
+            return val if not isinstance(val, _Unset) else defaults[key]
+
         return {
-            "theme": self._theme if not isinstance(self._theme, _Unset) else defaults["theme"],
-            "column_mode": self._column_mode if not isinstance(self._column_mode, _Unset) else defaults["column_mode"],
-            "freeze_header": self._freeze_header if not isinstance(self._freeze_header, _Unset) else defaults["freeze_header"],
+            "theme": _pick(self._theme, "theme"),
+            "column_mode": _pick(self._column_mode, "column_mode"),
+            "freeze_header": _pick(self._freeze_header, "freeze_header"),
             "gradient_rules": self._gradient_rules,
         }

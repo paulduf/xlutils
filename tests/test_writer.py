@@ -75,27 +75,21 @@ def test_no_column_expand():
 
 def test_multi_sheet_writes_correct_sheet_count():
     wb = _save_and_load(
-        style()
-        .add_sheet(DATA, "Sales").back()
-        .add_sheet(DATA2, "Costs")
+        style().add_sheet(DATA, "Sales").back().add_sheet(DATA2, "Costs")
     )
     assert len(wb.sheetnames) == 2
 
 
 def test_multi_sheet_correct_names():
     wb = _save_and_load(
-        style()
-        .add_sheet(DATA, "Sales").back()
-        .add_sheet(DATA2, "Costs")
+        style().add_sheet(DATA, "Sales").back().add_sheet(DATA2, "Costs")
     )
     assert wb.sheetnames == ["Sales", "Costs"]
 
 
 def test_multi_sheet_each_sheet_has_correct_data():
     wb = _save_and_load(
-        style()
-        .add_sheet(DATA, "Sales").back()
-        .add_sheet(DATA2, "Costs")
+        style().add_sheet(DATA, "Sales").back().add_sheet(DATA2, "Costs")
     )
     assert wb["Sales"]["A1"].value == "product"
     assert wb["Sales"]["A2"].value == "Alpha"
@@ -107,8 +101,11 @@ def test_multi_sheet_per_sheet_theme_applied():
     # "default" theme has white header font, "minimal" has black
     wb = _save_and_load(
         style()
-        .add_sheet(DATA, "Sales").apply_theme("default").back()
-        .add_sheet(DATA2, "Costs").apply_theme("minimal")
+        .add_sheet(DATA, "Sales")
+        .apply_theme("default")
+        .back()
+        .add_sheet(DATA2, "Costs")
+        .apply_theme("minimal")
     )
     sales_header_color = wb["Sales"]["A1"].font.color.rgb
     costs_header_color = wb["Costs"]["A1"].font.color.rgb
@@ -118,8 +115,10 @@ def test_multi_sheet_per_sheet_theme_applied():
 def test_multi_sheet_per_sheet_freeze_header():
     wb = _save_and_load(
         style()
-        .add_sheet(DATA, "Sales").back()
-        .add_sheet(DATA2, "Costs").freeze_header(False)
+        .add_sheet(DATA, "Sales")
+        .back()
+        .add_sheet(DATA2, "Costs")
+        .freeze_header(False)
     )
     assert wb["Sales"].freeze_panes == "A2"
     assert wb["Costs"].freeze_panes is None
@@ -128,7 +127,9 @@ def test_multi_sheet_per_sheet_freeze_header():
 def test_multi_sheet_gradient_on_specific_sheet_only():
     wb = _save_and_load(
         style()
-        .add_sheet(DATA, "Sales").color_gradient("revenue").back()
+        .add_sheet(DATA, "Sales")
+        .color_gradient("revenue")
+        .back()
         .add_sheet(DATA2, "Costs")
     )
     sales_rules = list(wb["Sales"].conditional_formatting)
@@ -141,7 +142,8 @@ def test_multi_sheet_workbook_default_theme_inherited():
     wb = _save_and_load(
         style()
         .apply_theme("minimal")
-        .add_sheet(DATA, "Sales").back()
+        .add_sheet(DATA, "Sales")
+        .back()
         .add_sheet(DATA2, "Costs")
     )
     # Both sheets use "minimal" — header should be bold
@@ -152,8 +154,10 @@ def test_multi_sheet_workbook_default_theme_inherited():
 def test_multi_sheet_sheet_order_preserved():
     wb = _save_and_load(
         style()
-        .add_sheet(DATA, "First").back()
-        .add_sheet(DATA2, "Second").back()
+        .add_sheet(DATA, "First")
+        .back()
+        .add_sheet(DATA2, "Second")
+        .back()
         .add_sheet(DATA, "Third")
     )
     assert wb.sheetnames == ["First", "Second", "Third"]

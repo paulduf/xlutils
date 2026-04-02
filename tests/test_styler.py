@@ -2,7 +2,6 @@ import pytest
 
 from xlutils import style
 from xlutils.sheet_spec import SheetSpec
-from xlutils.styler import Styler
 
 DATA = [{"product": "A", "revenue": 100}, {"product": "B", "revenue": 200}]
 DATA2 = [{"city": "Paris", "pop": 2000000}, {"city": "Lyon", "pop": 500000}]
@@ -89,6 +88,7 @@ def test_sheet_spec_save_delegates_to_styler(tmp_path):
     path = str(tmp_path / "out.xlsx")
     style().add_sheet(DATA, "Sheet1").save(path)
     import os
+
     assert os.path.exists(path)
 
 
@@ -117,6 +117,7 @@ def test_color_gradient_on_styler_in_multi_sheet_mode_raises():
 
 def test_backward_compat_single_sheet_style_with_data(tmp_path):
     from openpyxl import load_workbook
+
     path = str(tmp_path / "out.xlsx")
     style(DATA).apply_theme("minimal").save(path)
     wb = load_workbook(path)
@@ -126,6 +127,7 @@ def test_backward_compat_single_sheet_style_with_data(tmp_path):
 
 def test_backward_compat_sheet_name_kwarg(tmp_path):
     from openpyxl import load_workbook
+
     path = str(tmp_path / "out.xlsx")
     style(DATA).save(path, sheet_name="MySheet")
     wb = load_workbook(path)
@@ -149,10 +151,14 @@ def test_mixed_mode_raises():
 
 def test_sheet_name_kwarg_with_multiple_sheets_raises(tmp_path):
     with pytest.raises(ValueError, match="sheet_name kwarg"):
-        (style()
-            .add_sheet(DATA, "A").back()
-            .add_sheet(DATA2, "B").back()
-            .save(str(tmp_path / "out.xlsx"), sheet_name="X"))
+        (
+            style()
+            .add_sheet(DATA, "A")
+            .back()
+            .add_sheet(DATA2, "B")
+            .back()
+            .save(str(tmp_path / "out.xlsx"), sheet_name="X")
+        )
 
 
 def test_sheet_spec_chain_returns_same_spec():

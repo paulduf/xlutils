@@ -29,8 +29,8 @@ DEMO_DATA = [
 SUMMARY_DATA = [
     {"Region": "North", "Total Q1": 22900, "Total Q2": 25900, "YoY Growth": "+13%"},
     {"Region": "South", "Total Q1": 17800, "Total Q2": 21200, "YoY Growth": "+19%"},
-    {"Region": "East",  "Total Q1": 29400, "Total Q2": 33100, "YoY Growth": "+13%"},
-    {"Region": "West",  "Total Q1": 24800, "Total Q2": 27600, "YoY Growth": "+11%"},
+    {"Region": "East", "Total Q1": 29400, "Total Q2": 33100, "YoY Growth": "+13%"},
+    {"Region": "West", "Total Q1": 24800, "Total Q2": 27600, "YoY Growth": "+11%"},
 ]
 
 
@@ -71,16 +71,16 @@ def generate() -> None:
     (
         style()
         .add_sheet(DEMO_DATA, "Sales")
-            .apply_theme("default")
-            .expand_columns("fit")
-            .color_gradient("Q1 Sales")
-            .color_gradient("Q2 Sales")
-            .back()
+        .apply_theme("default")
+        .expand_columns("fit")
+        .color_gradient("Q1 Sales")
+        .color_gradient("Q2 Sales")
+        .back()
         .add_sheet(SUMMARY_DATA, "Summary")
-            .apply_theme("minimal")
-            .expand_columns(18)
-            .freeze_header(False)
-            .back()
+        .apply_theme("minimal")
+        .expand_columns(18)
+        .freeze_header(False)
+        .back()
         .save(str(path_multi))
     )
 
